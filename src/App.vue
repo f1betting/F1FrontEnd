@@ -5,10 +5,23 @@
 </template>
 
 <script setup lang="ts">
+import { decodeJwt } from "jose";
+import { userStore } from "./store/userInfo";
+
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
 function handleCredentialResponse(response: any) {
-  console.log(response);
+  const responsePayload = decodeJwt(response.credential);
+  if (!responsePayload.sub) return;
+
+  console.log("ID: " + responsePayload.sub);
+  console.log("Full Name: " + responsePayload.name);
+  console.log("Given Name: " + responsePayload.given_name);
+  console.log("Family Name: " + responsePayload.family_name);
+  console.log("Image URL: " + responsePayload.picture);
+  console.log("Email: " + responsePayload.email);
+
+  userStore.id = response.credential;
 }
 
 window.onload = function () {
@@ -18,7 +31,7 @@ window.onload = function () {
   });
   google.accounts.id.renderButton(
       document.getElementById("buttonDiv")!,
-      { theme: "outline", size: "large", type: "standard" }  // customization attributes
+      { theme: "outline", size: "large", type: "standard", shape: "pill", text: "continue_with" }  // customization attributes
   );
   google.accounts.id.prompt(); // also display the One Tap dialog
 };
