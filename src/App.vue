@@ -17,9 +17,8 @@
           class="w-24 h-auto rounded-full drop-shadow-xl">
 
       <div class="text-white">
-        <h1 class="font-bold">{{ userStore.id.name }}</h1>
-        <h1 class="font-bold">{{ userStore.id.sub }}</h1>
-        <h1 class="font-bold">{{ userStore.id.email }}</h1>
+        <h1 class="font-bold">Name: {{ userStore.id.name }}</h1>
+        <h1 class="font-bold">Points: {{ userStore.user.points }}</h1>
       </div>
 
       <div class="absolute bottom-0 p-5 text-white">
@@ -31,6 +30,10 @@
         <button class="w-full bg-white text-red text-2xl rounded-md drop-shadow-lg font-bold mt-5"
             @click="signOut">SIGN OUT
         </button>
+
+        <button class="w-full bg-white text-red text-2xl rounded-md drop-shadow-lg font-bold mt-5"
+            @click="fetchUserData">TEST
+        </button>
       </div>
     </div>
   </div>
@@ -40,6 +43,14 @@
 import { userStore } from "./store/userInfo";
 import SignInButton  from "./components/SignInButton.vue";
 import Card          from "./components/Card.vue";
+import axios         from "axios";
+
+
+async function fetchUserData() {
+  const res = await axios.get(`http://localhost:8001/users/${ userStore.id.name.toLowerCase() }`);
+
+  userStore.user = res.data;
+}
 
 function signOut() {
   userStore.id = {};
