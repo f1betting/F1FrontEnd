@@ -3,10 +3,15 @@
 @tailwind utilities;
 
 :root {
+	--red:                    #FF1E00;
+	--black:                  #15151E;
+	--off-white:               #F7F4F1;
+	--white:                  #FFFFFF;
+
 	font-family:              Inter, Avenir, Helvetica, Arial, sans-serif;
 	font-synthesis:           none;
 	text-rendering:           optimizeLegibility;
 	-webkit-font-smoothing:   antialiased;
 	-moz-osx-font-smoothing:  grayscale;
-	-webkit-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%
 }

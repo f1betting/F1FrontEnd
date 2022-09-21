@@ -1,40 +1,39 @@
 <template>
-  <div class="w-screen h-screen bg-blue-600 flex justify-center place-items-center">
-    <div id="buttonDiv"></div>
+  <div class="w-screen h-screen bg-off-white flex justify-center place-items-center">
+    <Card class="justify-between place-items-center py-10" v-show="!userStore.id.sub">
+      <div>
+        <img src="https://logodownload.org/wp-content/uploads/2016/11/formula-1-logo-5-3.png"
+            alt="F1 LOGO"
+            class="w-full h-auto brightness-0 invert">
+        <h1 class="text-center text-4xl font-bold">F1 BETTING</h1>
+      </div>
+      <SignInButton />
+    </Card>
+
+    <Card class="justify-between py-10" v-if="userStore.id.sub">
+      <img :src="userStore.id.picture"
+          alt="PROFILE PICTURE"
+          class="w-24 h-auto place-self-center rounded-full drop-shadow-xl">
+
+      <div class="text-center">
+        <h1 class="font-bold">{{ userStore.id.name }}</h1>
+        <h1 class="font-bold">{{ userStore.id.sub }}</h1>
+        <h1 class="font-bold">{{ userStore.id.email }}</h1>
+      </div>
+
+      <button class="w-full bg-off-white text-black" @click="signOut">Sign out</button>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { decodeJwt } from "jose";
 import { userStore } from "./store/userInfo";
+import SignInButton  from "./components/SignInButton.vue";
+import Card          from "./components/Card.vue";
 
-const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
-
-function handleCredentialResponse(response: any) {
-  const responsePayload = decodeJwt(response.credential);
-  if (!responsePayload.sub) return;
-
-  console.log("ID: " + responsePayload.sub);
-  console.log("Full Name: " + responsePayload.name);
-  console.log("Given Name: " + responsePayload.given_name);
-  console.log("Family Name: " + responsePayload.family_name);
-  console.log("Image URL: " + responsePayload.picture);
-  console.log("Email: " + responsePayload.email);
-
-  userStore.id = response.credential;
+function signOut() {
+  userStore.id = {};
 }
-
-window.onload = function () {
-  google.accounts.id.initialize({
-    client_id: CLIENT_ID,
-    callback:  handleCredentialResponse
-  });
-  google.accounts.id.renderButton(
-      document.getElementById("buttonDiv")!,
-      { theme: "outline", size: "large", type: "standard", shape: "pill", text: "continue_with" }  // customization attributes
-  );
-  google.accounts.id.prompt(); // also display the One Tap dialog
-};
 </script>
 
 <style scoped>
