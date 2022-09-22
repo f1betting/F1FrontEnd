@@ -3,8 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import { decodeJwt } from "jose";
-import { userStore } from "../store/userInfo";
+import { decodeJwt }    from "jose";
+import { useUserStore } from "../store/userInfo";
+import { useRouter }    from "vue-router";
+
+const userStore = useUserStore();
+const router    = useRouter();
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
@@ -20,7 +24,10 @@ function handleCredentialResponse(response: any) {
   console.log("Email: " + responsePayload.email);
 
   userStore.id = decodeJwt(response.credential);
+
+  router.push("/");
 }
+
 window.onload = function () {
   google.accounts.id.initialize({
     client_id: CLIENT_ID,
@@ -28,7 +35,7 @@ window.onload = function () {
   });
   google.accounts.id.renderButton(
       document.getElementById("buttonDiv")!,
-      { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "continue_with" }  // customization attributes
+      { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "signin" }  // customization attributes
   );
   google.accounts.id.prompt(); // also display the One Tap dialog
 };

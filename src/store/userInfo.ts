@@ -1,6 +1,26 @@
-import { reactive } from "vue";
+import { defineStore } from "pinia";
+import { JWTPayload }  from "jose";
 
-export const userStore = reactive({
-	id: {},
-	user: {},
+export const useUserStore = defineStore("UserStore", {
+	state: (): userState => {
+		return {
+			id:       {},
+			userdata: {
+				username: "",
+				uuid:     "",
+				points:   0,
+			}
+		};
+	}
 });
+
+interface userState {
+	id: JWTPayload,
+	userdata: userData
+}
+
+interface userData {
+	username: string,
+	uuid: string,
+	points: number
+}
