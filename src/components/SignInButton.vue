@@ -26,6 +26,7 @@ function handleCredentialResponse(response: any) {
   console.log("Email: " + responsePayload.email);
 
   userStore.id = decodeJwt(response.credential);
+  userStore.token = response.credential
 
   router.push("/");
 }

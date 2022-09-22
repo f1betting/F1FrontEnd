@@ -4,6 +4,7 @@ import { JWTPayload }  from "jose";
 export const useUserStore = defineStore("UserStore", {
 	state: (): userState => {
 		return {
+			token:    "",
 			id:       {},
 			userdata: {
 				username: "",
@@ -15,6 +16,7 @@ export const useUserStore = defineStore("UserStore", {
 });
 
 interface userState {
+	token: string
 	id: JWTPayload,
 	userdata: userData
 }

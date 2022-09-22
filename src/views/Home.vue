@@ -23,16 +23,35 @@
       </button>
     </div>
   </div>
+
+  <div class="w-screen h-screen bg-off-white flex justify-center place-items-center">
+    <Card class="text-white place-items-center">
+      <h1 class="font-bold text-3xl">UPCOMING BET</h1>
+      <div class="grid grid-cols-2 gap-x-4 text-xl">
+        <h1 class="font-bold text-right">Round</h1>
+        <h1>{{ betStore.bet.round }}</h1>
+        <h1 class="font-bold text-right">P1</h1>
+        <h1>{{ betStore.bet.p1 }}</h1>
+        <h1 class="font-bold text-right">P2</h1>
+        <h1>{{ betStore.bet.p2 }}</h1>
+        <h1 class="font-bold text-right">P3</h1>
+        <h1>{{ betStore.bet.p3 }}</h1>
+      </div>
+    </Card>
+  </div>
 </template>
 
 <script setup lang="ts">
+import Card             from "../components/Card.vue";
 import { useUserStore } from "../store/userInfo";
+import { useBetStore }  from "../store/bet";
 import { onMounted }    from "vue";
 import { useRouter }    from "vue-router";
 import axios            from "axios";
 
 const router    = useRouter();
 const userStore = useUserStore();
+const betStore  = useBetStore();
 
 async function fetchUserData() {
   if (!userStore.id.name) return;
@@ -44,13 +63,24 @@ async function fetchUserData() {
   userStore.userdata = res.data;
 }
 
+async function getNextBet() {
+  const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/bet/17`, {
+    headers: {
+      "Authorization": `Bearer ${ userStore.token }`
+    }
+  });
+
+  betStore.bet = res.data;
+}
+
 function signOut() {
   userStore.id = {};
   router.push("/login");
 }
 
-onMounted(() => {
-  fetchUserData();
+onMounted(async () => {
+  await fetchUserData();
+  await getNextBet();
 });
 </script>
 
