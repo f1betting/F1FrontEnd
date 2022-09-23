@@ -1,5 +1,5 @@
 <template>
-  <Card class="text-white place-items-center">
+  <Card class="place-items-center">
     <h1 class="font-bold text-3xl">UPCOMING</h1>
     <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xl">
       <h1 class="col-span-full text-center font-bold">{{ raceName }}</h1>

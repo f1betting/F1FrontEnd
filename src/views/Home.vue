@@ -24,12 +24,17 @@
     </div>
   </div>
 
+
   <div class="w-screen h-screen bg-off-white flex justify-center place-items-center">
-    <BetCard></BetCard>
+    <div class="flex flex-row gap-8">
+      <BetCard></BetCard>
+      <StandingsCard></StandingsCard>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import StandingsCard     from "../components/StandingsCard.vue";
 import BetCard           from "../components/BetCard.vue";
 import Button            from "../components/Button.vue";
 import { useUserStore }  from "../store/userInfo";
