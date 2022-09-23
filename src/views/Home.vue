@@ -19,11 +19,11 @@
 
       <Button class="mt-5"
           @click="signOut"
-          v-if="userStore.id.sub">SIGN OUT
+          v-if="userStore.id.sub">
+        SIGN OUT
       </Button>
     </div>
   </div>
-
 
   <div class="w-screen h-screen bg-off-white flex justify-center place-items-center">
     <div class="flex flex-row gap-8">

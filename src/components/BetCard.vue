@@ -4,26 +4,29 @@
     <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xl">
       <h1 class="col-span-full text-center font-bold">{{ raceName }}</h1>
       <h1 class="font-bold text-right self-center">P1</h1>
-      <input v-model="bet.p1" class="bg-red border-white border-2 p-1 text-xl uppercase">
+      <input v-model="bet.p1" class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
       <h1 class="font-bold text-right self-center">P2</h1>
-      <input v-model="bet.p2" class="bg-red border-white border-2 p-1 text-xl uppercase">
+      <input v-model="bet.p2" class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
       <h1 class="font-bold text-right self-center">P3</h1>
-      <input v-model="bet.p3" class="bg-red border-white border-2 p-1 text-xl uppercase">
+      <input v-model="bet.p3" class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
     </div>
 
     <Button class="mt-5"
         @click="createBet"
-        v-if="!betExists">BET
+        v-if="!betExists">
+      BET
     </Button>
 
     <Button class="mt-5"
         @click="updateBet"
-        v-if="betExists">UPDATE
+        v-if="betExists">
+      UPDATE
     </Button>
 
     <Button class="mt-5"
         @click="deleteBet"
-        v-if="betExists">DELETE
+        v-if="betExists">
+      DELETE
     </Button>
   </Card>
 </template>
