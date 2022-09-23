@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
+import { Bet }         from "../typings/typings";
 
 export const useBetStore = defineStore("BetStore", {
-	state: (): { bet: bet } => {
+	state: (): { bet: Bet } => {
 		return {
 			bet: {
 				p1:       "",
@@ -9,17 +10,11 @@ export const useBetStore = defineStore("BetStore", {
 				p3:       "",
 				points:   -1,
 				round:    -1,
-				username: ""
+				username: "",
+				raceName: ""
 			}
 		};
 	}
 });
 
-interface bet {
-	p1: string,
-	p2: string,
-	p3: string,
-	points: number,
-	round: number,
-	username: string
-}
+
