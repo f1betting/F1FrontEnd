@@ -6,6 +6,7 @@
 import { decodeJwt }    from "jose";
 import { useUserStore } from "../store/userInfo";
 import { useRouter }    from "vue-router";
+import { onMounted }    from "vue";
 
 const userStore = useUserStore();
 const router    = useRouter();
@@ -16,7 +17,7 @@ function handleCredentialResponse(response: any) {
   const responsePayload = decodeJwt(response.credential);
   if (!responsePayload.sub) return;
 
-  console.log(response.credential)
+  console.log(response.credential);
 
   console.log("ID: " + responsePayload.sub);
   console.log("Full Name: " + responsePayload.name);
@@ -25,23 +26,23 @@ function handleCredentialResponse(response: any) {
   console.log("Image URL: " + responsePayload.picture);
   console.log("Email: " + responsePayload.email);
 
-  userStore.id = decodeJwt(response.credential);
-  userStore.token = response.credential
+  userStore.id    = decodeJwt(response.credential);
+  userStore.token = response.credential;
 
   router.push("/");
 }
 
-window.onload = function () {
+onMounted(() => {
   google.accounts.id.initialize({
     client_id: CLIENT_ID,
     callback:  handleCredentialResponse
   });
   google.accounts.id.renderButton(
       document.getElementById("buttonDiv")!,
-      { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "signin" }  // customization attributes
+      { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "continue_with" }  // customization attributes
   );
   google.accounts.id.prompt(); // also display the One Tap dialog
-};
+});
 </script>
 
 <style scoped>
