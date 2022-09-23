@@ -5,8 +5,8 @@
           alt="PROFILE PICTURE"
           class="w-24 h-auto rounded-full drop-shadow-xl">
 
-      <div class="text-white">
-        <h1 class="font-bold">Name: {{ userStore.id.name }}</h1>
+      <div class="text-white text-center text-xl">
+        <h1 class="font-bold">{{ userStore.id.name }}</h1>
         <h1 class="font-bold">Points: {{ userStore.userdata.points }}</h1>
       </div>
     </div>
