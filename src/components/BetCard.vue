@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import Card                   from "../components/Card.vue";
-import Button                   from "../components/Button.vue";
+import Button                 from "../components/Button.vue";
 import { useUserStore }       from "../store/userInfo";
 import { onBeforeMount, ref } from "vue";
 import { Bet, NextRace }      from "../typings/typings";
@@ -74,6 +74,7 @@ async function getNextBet() {
   }
   catch {
     console.error("Bet not found");
+    bet.value       = emptyBet;
     betExists.value = false;
   }
 }
@@ -85,13 +86,18 @@ async function updateBet() {
   const season = raceData.season;
   const round  = raceData.round;
 
-  await axios({
-    method:  "put",
-    url:     `${ import.meta.env.VITE_BETTING_API_URL }/bet/${ round }?season=${ season }&p1=${ bet.value.p1 }&p2=${ bet.value.p2 }&p3=${ bet.value.p3 }`,
-    headers: {
-      "Authorization": `Bearer ${ userStore.token }`
-    }
-  });
+  try {
+    await axios({
+      method:  "put",
+      url:     `${ import.meta.env.VITE_BETTING_API_URL }/bet/${ round }?season=${ season }&p1=${ bet.value.p1 }&p2=${ bet.value.p2 }&p3=${ bet.value.p3 }`,
+      headers: {
+        "Authorization": `Bearer ${ userStore.token }`
+      }
+    });
+  }
+  catch {
+    console.error("Driver code incorrect");
+  }
 
   await getNextBet();
 }
