@@ -50,10 +50,19 @@ async function fetchUserData() {
   if (!userStore.id.name) return;
 
   const username = <string>userStore.id.name;
+  const uuid     = <string>userStore.id.sub;
 
-  const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/users/${ username.toLowerCase() }`);
+  try {
+    const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/users/${ uuid }`);
 
-  userStore.userdata = res.data;
+    userStore.userdata = res.data;
+  }
+  catch {
+    await axios.post(`${ import.meta.env.VITE_BETTING_API_URL }/users`, {
+      "username": username.toLowerCase(),
+      "uuid":     uuid
+    });
+  }
 }
 
 function signOut() {
