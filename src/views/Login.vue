@@ -9,14 +9,26 @@
       </div>
       <div class="flex flex-col place-items-center gap-4">
         <SignInButton />
+        <a class="underline" @click="signInAsGuest()">Continue as guest</a>
       </div>
     </Card>
   </div>
 </template>
 
 <script setup lang="ts">
-import SignInButton from "../components/SignInButton.vue";
-import Card         from "../components/Card.vue";
+import SignInButton     from "../components/SignInButton.vue";
+import Card             from "../components/Card.vue";
+import { useUserStore } from "../store/userInfo";
+import { useRouter }    from "vue-router";
+
+const userStore = useUserStore();
+const router    = useRouter();
+
+
+function signInAsGuest() {
+  userStore.guest = true;
+  router.push("/");
+}
 </script>
 
 <style scoped>

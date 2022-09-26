@@ -24,7 +24,7 @@ const router = createRouter({
 function Verify() {
 	const userStore = useUserStore();
 	
-	return !!userStore.id.sub;
+	return !!userStore.id.sub || userStore.guest;
 }
 
 router.beforeEach((to, from, next) => {

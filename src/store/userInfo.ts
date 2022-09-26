@@ -10,15 +10,17 @@ export const useUserStore = defineStore("UserStore", {
 				username: "",
 				uuid:     "",
 				points:   0,
-			}
+			},
+			guest:    false
 		};
 	}
 });
 
 interface userState {
-	token: string
+	token: string,
 	id: JWTPayload,
-	userdata: userData
+	userdata: userData,
+	guest: boolean
 }
 
 interface userData {
