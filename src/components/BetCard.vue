@@ -6,20 +6,20 @@
       <h1 class="font-bold text-right self-center">P1</h1>
       <select
           v-model="bet.p1"
-          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md lg:appearance-none small:appearance-none">
         <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
       </select>
       <h1 class="font-bold text-right self-center">P2</h1>
       <select
           v-model="bet.p2"
-          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md lg:appearance-none small:appearance-none">
         <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
       </select>
       <h1 class="font-bold text-right self-center">P3</h1>
       <select
           v-model="bet.p3"
-          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
-        <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
+          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md lg:appearance-none small:appearance-none">
+        <option v-for="driverCode in driverCodes" class="lg:hidden, small:hidden">{{ driverCode }}</option>
       </select>
     </div>
 
@@ -171,16 +171,12 @@ onBeforeMount(async () => {
 <style scoped>
 
 
-@media only screen and (min-width: 500px) {
-  option {
-    display: none;
-  }
-
-  select {
-    -webkit-appearance:  none;
-    -moz-appearance:     none;
-    -webkit-user-select: none;
-    -moz-user-select:    none;
-  }
-}
+/*@media only screen and (min-width: 500px) {*/
+/*  select {*/
+/*    -webkit-appearance:  none;*/
+/*    -moz-appearance:     none;*/
+/*    -webkit-user-select: none;*/
+/*    -moz-user-select:    none;*/
+/*  }*/
+/*}*/
 </style>

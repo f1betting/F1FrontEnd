@@ -8,11 +8,12 @@ module.exports = {
             "off-white": "var(--off-white)",
             "white": "var(--white)"
         },
-        extend: {
-            screens: {
-                "phone": {"max": "500px"}
-            },
+        screens: {
+            "phone": {"max": "820px"},
+            "small": {"min": "821px", "max": "1500px"},
+            "lg": {"min": "1500px"}
         },
+        extend: {},
     },
     plugins: [],
 }
