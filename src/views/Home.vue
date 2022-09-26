@@ -17,11 +17,9 @@ import BetCard            from "../components/BetCard.vue";
 import PreviousResultCard from "../components/PreviousResultCard.vue";
 import { useUserStore }   from "../store/userInfo";
 import { onBeforeMount }  from "vue";
-import { useRouter }      from "vue-router";
 import axios              from "axios";
 import SideBar            from "../components/SideBar.vue";
 
-const router    = useRouter();
 const userStore = useUserStore();
 
 
@@ -42,11 +40,6 @@ async function fetchUserData() {
       "uuid":     uuid
     });
   }
-}
-
-function signOut() {
-  userStore.id = {};
-  router.push("/login");
 }
 
 onBeforeMount(async () => {
