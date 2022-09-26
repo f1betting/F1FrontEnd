@@ -4,11 +4,23 @@
     <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xl">
       <h1 class="col-span-full text-center font-bold">{{ raceName }}</h1>
       <h1 class="font-bold text-right self-center">P1</h1>
-      <input v-model="bet.p1" class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+      <select
+          v-model="bet.p1"
+          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+        <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
+      </select>
       <h1 class="font-bold text-right self-center">P2</h1>
-      <input v-model="bet.p2" class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+      <select
+          v-model="bet.p2"
+          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+        <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
+      </select>
       <h1 class="font-bold text-right self-center">P3</h1>
-      <input v-model="bet.p3" class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+      <select
+          v-model="bet.p3"
+          class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md">
+        <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
+      </select>
     </div>
 
     <Button class="mt-5"
@@ -32,12 +44,12 @@
 </template>
 
 <script setup lang="ts">
-import Card                   from "../components/Card.vue";
-import Button                 from "../components/Button.vue";
-import { useUserStore }       from "../store/userInfo";
-import { onBeforeMount, ref } from "vue";
-import { Bet, NextRace }      from "../typings/typings";
-import axios                  from "axios";
+import Card                             from "../components/Card.vue";
+import Button                           from "../components/Button.vue";
+import { useUserStore }                 from "../store/userInfo";
+import { onBeforeMount, reactive, ref } from "vue";
+import { Bet, Driver, NextRace }        from "../typings/typings";
+import axios                            from "axios";
 
 const emptyBet = {
   p1:       "",
@@ -45,14 +57,16 @@ const emptyBet = {
   p3:       "",
   points:   -1,
   round:    -1,
+  season:   -1,
   username: "",
   raceName: ""
 };
 
-const userStore = useUserStore();
-const bet       = ref<Bet>(emptyBet);
-const betExists = ref<boolean>(false);
-const raceName  = ref<String>();
+const driverCodes = reactive<Array<string>>([]);
+const userStore   = useUserStore();
+const bet         = ref<Bet>(emptyBet);
+const betExists   = ref<boolean>(false);
+const raceName    = ref<String>();
 
 async function getNextBet() {
   const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
@@ -139,11 +153,34 @@ async function deleteBet() {
   await getNextBet();
 }
 
+async function populateDataList() {
+  const drivers     = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/drivers/${ bet.value.season }`);
+  const driversData = <Array<Driver>>drivers.data.drivers;
+
+  driversData.forEach(driver => {
+    driverCodes.push(driver.code);
+  });
+}
+
 onBeforeMount(async () => {
   await getNextBet();
+  await populateDataList();
 });
 </script>
 
 <style scoped>
 
+
+@media only screen and (min-width: 500px) {
+  option {
+    display: none;
+  }
+
+  select {
+    -webkit-appearance:  none;
+    -moz-appearance:     none;
+    -webkit-user-select: none;
+    -moz-user-select:    none;
+  }
+}
 </style>
