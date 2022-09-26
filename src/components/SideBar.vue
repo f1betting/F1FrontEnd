@@ -10,6 +10,12 @@
         <h1 class="font-bold">{{ userStore.id.name }}</h1>
         <h1 class="font-bold">Points: {{ userStore.userdata.points }}</h1>
       </div>
+
+      <Button class="mt-5 self-center small:hidden lg:hidden"
+          @click="signOut"
+          v-if="userStore.id.sub">
+        SIGN OUT
+      </Button>
     </div>
 
     <div class="absolute bottom-0 p-5 text-white flex flex-col phone:hidden">
@@ -30,6 +36,19 @@
         SIGN IN
       </Button>
     </div>
+
+    <div class="absolute bottom-0 p-5 text-white flex flex-col" v-if="userStore.guest">
+      <img src="https://logodownload.org/wp-content/uploads/2016/11/formula-1-logo-5-3.png"
+          alt="F1 LOGO"
+          class="w-64 h-auto brightness-0 invert">
+      <h1 class="text-center text-4xl font-bold">F1 BETTING</h1>
+
+      <Button class="mt-5 self-center"
+          @click="signIn"
+          v-if="!userStore.id.sub">
+        SIGN IN
+      </Button>
+    </div>
   </div>
 </template>
 
@@ -42,7 +61,8 @@ const router    = useRouter();
 const userStore = useUserStore();
 
 function signOut() {
-  userStore.id = {};
+  userStore.id    = {};
+  userStore.guest = true;
 }
 
 function signIn() {

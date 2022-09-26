@@ -1,23 +1,13 @@
 <template>
-  <div class="bg-off-white">
-    <SideBar></SideBar>
+  <SideBar></SideBar>
 
-    <div class="w-screen h-screen phone:h-full small:h-full flex justify-center
-    place-items-center phone:py-10 small:py-10">
-      <div class="flex flex-row phone:flex-col small:flex-col gap-8">
-        <BetCard v-show="userStore.id.sub"></BetCard>
-        <StandingsCard></StandingsCard>
-        <PreviousResultCard v-show="userStore.id.sub"></PreviousResultCard>
-
-        <Button class="w-full hidden phone:block"
-            @click="signOut"
-            v-if="userStore.id.sub">
-          SIGN OUT
-        </Button>
-      </div>
+  <div class="w-screen h-screen phone:h-full flex justify-center
+    place-items-center phone:py-10 small:py-10" :class="userStore.guest ? 'small:h-screen' : 'small:h-full'">
+    <div class="flex flex-row phone:flex-col small:flex-col gap-8">
+      <BetCard v-show="userStore.id.sub"></BetCard>
+      <StandingsCard></StandingsCard>
+      <PreviousResultCard v-show="userStore.id.sub"></PreviousResultCard>
     </div>
-
-
   </div>
 </template>
 
@@ -25,7 +15,6 @@
 import StandingsCard      from "../components/StandingsCard.vue";
 import BetCard            from "../components/BetCard.vue";
 import PreviousResultCard from "../components/PreviousResultCard.vue";
-import Button             from "../components/Button.vue";
 import { useUserStore }   from "../store/userInfo";
 import { onBeforeMount }  from "vue";
 import { useRouter }      from "vue-router";
@@ -65,6 +54,8 @@ onBeforeMount(async () => {
 });
 </script>
 
-<style scoped>
-
+<style>
+body {
+  background-color: var(--off-white);
+}
 </style>

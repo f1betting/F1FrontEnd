@@ -19,6 +19,7 @@ function handleCredentialResponse(response: any) {
 
   userStore.id    = decodeJwt(response.credential);
   userStore.token = response.credential;
+  userStore.guest = false;
 
   router.push("/");
 }

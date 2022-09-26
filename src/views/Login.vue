@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen bg-off-white flex justify-center place-items-center">
+  <div class="w-screen h-screen flex justify-center place-items-center">
     <Card class="justify-between place-items-center py-10">
       <div>
         <img src="https://logodownload.org/wp-content/uploads/2016/11/formula-1-logo-5-3.png"
