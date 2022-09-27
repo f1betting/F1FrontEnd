@@ -12,16 +12,17 @@
 </template>
 
 <script setup lang="ts">
-import StandingsCard      from "../components/StandingsCard.vue";
-import BetCard            from "../components/BetCard.vue";
-import PreviousResultCard from "../components/PreviousResultCard.vue";
-import { useUserStore }   from "../store/userInfo";
-import { onBeforeMount }  from "vue";
-import axios              from "axios";
-import SideBar            from "../components/SideBar.vue";
+import StandingsCard          from "../components/StandingsCard.vue";
+import BetCard                from "../components/BetCard.vue";
+import PreviousResultCard     from "../components/PreviousResultCard.vue";
+import { useUserStore }       from "../store/userInfo";
+import { onBeforeMount, ref } from "vue";
+import axios                  from "axios";
+import SideBar                from "../components/SideBar.vue";
+import { NextRace }           from "../typings/typings";
 
 const userStore = useUserStore();
-
+const season    = ref();
 
 async function fetchUserData() {
   if (!userStore.id.name) return;
@@ -29,10 +30,22 @@ async function fetchUserData() {
   const username = <string>userStore.id.name;
   const uuid     = <string>userStore.id.sub;
 
+  const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
+  const raceData = <NextRace>nextRace.data;
+
+  season.value = raceData.season;
+  const round  = raceData.round;
+
+  if (round <= 1) {
+    season.value--;
+  }
+
   try {
     const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/users/${ uuid }`);
 
     userStore.userdata = res.data;
+
+    userStore.userdata.points = res.data[`points_${ season.value }`];
   }
   catch {
     await axios.post(`${ import.meta.env.VITE_BETTING_API_URL }/users`, {
