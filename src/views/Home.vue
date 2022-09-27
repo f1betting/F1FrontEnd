@@ -1,7 +1,7 @@
 <template>
   <SideBar></SideBar>
 
-  <div class="w-screen h-screen phone:h-full flex justify-center
+  <div class="max-w-screen h-screen phone:h-full flex justify-center
     place-items-center phone:py-10 small:py-10" :class="userStore.guest ? 'small:h-screen' : 'small:h-full'">
     <div class="flex flex-row phone:flex-col small:flex-col gap-8">
       <BetCard v-show="userStore.id.sub"></BetCard>

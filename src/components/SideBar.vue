@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-red w-64 h-screen p-5 absolute left-0 flex flex-col place-items-center
-    text-white drop-shadow-2xl phone:w-screen phone:h-64 phone:relative phone:justify-center small:fixed">
+  <div class="bg-red w-64 h-screen py-5 absolute left-0 flex flex-col place-items-center
+    text-white drop-shadow-2xl phone:w-full phone:h-64 phone:relative phone:justify-center small:fixed">
     <div v-if="userStore.id.sub" class="flex flex-col place-items-center gap-4">
       <img :src="userStore.id.picture"
           alt="PROFILE PICTURE"
