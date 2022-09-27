@@ -19,10 +19,19 @@ import { useUserStore }       from "../store/userInfo";
 import { onBeforeMount, ref } from "vue";
 import axios                  from "axios";
 import SideBar                from "../components/SideBar.vue";
-import { NextRace }           from "../typings/typings";
+import { F1Client }           from "../client/f1";
+import { BettingClient }      from "../client/betting";
 
 const userStore = useUserStore();
 const season    = ref();
+
+const f1Client = new F1Client({
+  BASE: `${ import.meta.env.VITE_F1_API_URL }`,
+});
+
+const bettingClient = new BettingClient({
+  BASE: `${ import.meta.env.VITE_BETTING_API_URL }`,
+});
 
 async function fetchUserData() {
   if (!userStore.id.name) return;
@@ -30,11 +39,10 @@ async function fetchUserData() {
   const username = <string>userStore.id.name;
   const uuid     = <string>userStore.id.sub;
 
-  const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
-  const raceData = <NextRace>nextRace.data;
+  const nextRace = await f1Client.events.getNextRace();
 
-  season.value = raceData.season;
-  const round  = raceData.round;
+  season.value = nextRace.season;
+  const round  = nextRace.round;
 
   if (round <= 1) {
     season.value--;
@@ -48,9 +56,9 @@ async function fetchUserData() {
     userStore.userdata.points = res.data[`points_${ season.value }`];
   }
   catch {
-    await axios.post(`${ import.meta.env.VITE_BETTING_API_URL }/users`, {
-      "username": username.toLowerCase(),
-      "uuid":     uuid
+    bettingClient.users.createUser({
+      username: username.toLowerCase(),
+      uuid:     uuid
     });
   }
 }

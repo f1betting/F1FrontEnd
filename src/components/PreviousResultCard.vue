@@ -23,21 +23,20 @@
 </template>
 
 <script setup lang="ts">
-import Card                          from "../components/Card.vue";
-import { useUserStore }              from "../store/userInfo";
-import { onBeforeMount, ref }        from "vue";
-import { Bet, NextRace, raceResult } from "../typings/typings";
-import axios                         from "axios";
+import Card                       from "../components/Card.vue";
+import { useUserStore }           from "../store/userInfo";
+import { onBeforeMount, ref }     from "vue";
+import { F1Client }               from "../client/f1";
+import { BettingClient, FullBet } from "../client/betting";
 
 const emptyBet = {
-  p1:       "",
-  p2:       "",
-  p3:       "",
-  points:   -1,
-  round:    -1,
-  season:   -1,
-  username: "",
-  raceName: ""
+  p1:     "",
+  p2:     "",
+  p3:     "",
+  uuid:   "",
+  points: -1,
+  round:  -1,
+  season: -1
 };
 
 const emptyTop3 = {
@@ -47,45 +46,45 @@ const emptyTop3 = {
 };
 
 const userStore = useUserStore();
-const bet       = ref<Bet>(emptyBet);
+const bet       = ref<FullBet>(emptyBet);
 const raceTop3  = ref(emptyTop3);
 const raceName  = ref<String>();
 
+const f1Client = new F1Client({
+  BASE: `${ import.meta.env.VITE_F1_API_URL }`,
+});
+
+const bettingClient = new BettingClient({
+  BASE:  `${ import.meta.env.VITE_BETTING_API_URL }`,
+  TOKEN: userStore.token
+});
+
 async function getBet() {
-  const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
-  const raceData = <NextRace>nextRace.data;
+  const nextRace = await f1Client.events.getNextRace();
 
-  const season = raceData.season;
-  const round  = raceData.round - 1;
+  const season = nextRace.season;
+  const round  = nextRace.round - 1;
 
-  const eventRes = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/${ season }/${ round }`);
+  const event = await f1Client.events.getEventDetails(season, round);
 
-  raceName.value = eventRes.data.raceName;
+  raceName.value = event.raceName;
 
   try {
-    const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/bet/${ round }`, {
-      headers: {
-        "Authorization": `Bearer ${ userStore.token }`
-      }
-    });
-
-    bet.value = res.data;
+    bet.value = await bettingClient.bet.getBet(round);
   }
   catch {
     console.error("Bet not found");
     bet.value = emptyBet;
   }
 
-  const raceRes     = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/results/race/${ season }/${ round }`);
-  const raceResults = <Array<raceResult>>raceRes.data.results;
+  const raceResults = await f1Client.results.getRaceResults(season, round);
 
   raceTop3.value = {
-    p1: raceResults[0].Driver.code,
-    p2: raceResults[1].Driver.code,
-    p3: raceResults[2].Driver.code
+    p1: raceResults.results[0].Driver.code ?? "ERR",
+    p2: raceResults.results[1].Driver.code ?? "ERR",
+    p3: raceResults.results[2].Driver.code ?? "ERR"
   };
 }
-
 
 onBeforeMount(async () => {
   await getBet();

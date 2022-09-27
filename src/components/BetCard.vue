@@ -48,69 +48,67 @@ import Card                             from "../components/Card.vue";
 import Button                           from "../components/Button.vue";
 import { useUserStore }                 from "../store/userInfo";
 import { onBeforeMount, reactive, ref } from "vue";
-import { Bet, Driver, NextRace }        from "../typings/typings";
-import axios                            from "axios";
+import { F1Client }                     from "../client/f1";
+import { BettingClient, FullBet }       from "../client/betting";
 
 const emptyBet = {
-  p1:       "",
-  p2:       "",
-  p3:       "",
-  points:   -1,
-  round:    -1,
-  season:   -1,
-  username: "",
-  raceName: ""
+  p1:     "",
+  p2:     "",
+  p3:     "",
+  uuid:   "",
+  points: -1,
+  round:  -1,
+  season: -1
 };
 
 const driverCodes = reactive<Array<string>>([]);
 const userStore   = useUserStore();
-const bet         = ref<Bet>(emptyBet);
+const bet         = ref<FullBet>(emptyBet);
 const betExists   = ref<boolean>(false);
 const raceName    = ref<String>();
 
+const f1Client = new F1Client({
+  BASE: `${ import.meta.env.VITE_F1_API_URL }`,
+});
+
+const bettingClient = new BettingClient({
+  BASE:  `${ import.meta.env.VITE_BETTING_API_URL }`,
+  TOKEN: userStore.token
+});
+
 async function getNextBet() {
-  const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
-  const raceData = <NextRace>nextRace.data;
+  const nextRace = await f1Client.events.getNextRace();
 
-  const season = raceData.season;
-  const round  = raceData.round;
+  const season = nextRace.season;
+  const round  = nextRace.round;
 
-  const eventRes = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/${ season }/${ round }`);
+  const event = await f1Client.events.getEventDetails(season, round);
 
-  raceName.value = eventRes.data.raceName;
+  raceName.value = event.raceName;
 
   try {
-    const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/bet/${ round }`, {
-      headers: {
-        "Authorization": `Bearer ${ userStore.token }`
-      }
-    });
+    bet.value = await bettingClient.bet.getBet(round);
 
-    bet.value       = res.data;
     betExists.value = true;
   }
   catch {
     console.error("Bet not found");
     bet.value       = emptyBet;
     betExists.value = false;
+
+    bet.value.season = season;
+    bet.value.round  = round;
   }
 }
 
 async function updateBet() {
-  const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
-  const raceData = <NextRace>nextRace.data;
+  const nextRace = await f1Client.events.getNextRace();
 
-  const season = raceData.season;
-  const round  = raceData.round;
+  const season = nextRace.season;
+  const round  = nextRace.round;
 
   try {
-    await axios({
-      method:  "put",
-      url:     `${ import.meta.env.VITE_BETTING_API_URL }/bet/${ round }?season=${ season }&p1=${ bet.value.p1 }&p2=${ bet.value.p2 }&p3=${ bet.value.p3 }`,
-      headers: {
-        "Authorization": `Bearer ${ userStore.token }`
-      }
-    });
+    await bettingClient.bet.editBet(round, season, bet.value.p1, bet.value.p2, bet.value.p3);
   }
   catch {
     console.error("Driver code incorrect");
@@ -120,45 +118,30 @@ async function updateBet() {
 }
 
 async function createBet() {
-  await axios({
-    method:  "post",
-    url:     `${ import.meta.env.VITE_BETTING_API_URL }/bet`,
-    data:    {
-      p1: bet.value.p1,
-      p2: bet.value.p2,
-      p3: bet.value.p3
-    },
-    headers: {
-      "Authorization": `Bearer ${ userStore.token }`
-    }
+  await bettingClient.bet.createBet({
+    p1: bet.value.p1,
+    p2: bet.value.p2,
+    p3: bet.value.p3
   });
 
   await getNextBet();
 }
 
 async function deleteBet() {
-  const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
-  const raceData = <NextRace>nextRace.data;
+  const nextRace = await f1Client.events.getNextRace();
 
-  const round = raceData.round;
+  const round = nextRace.round;
 
-  await axios({
-    method:  "delete",
-    url:     `${ import.meta.env.VITE_BETTING_API_URL }/bet/${ round }`,
-    headers: {
-      "Authorization": `Bearer ${ userStore.token }`
-    }
-  });
+  await bettingClient.bet.deleteBet(round);
 
   await getNextBet();
 }
 
 async function populateDataList() {
-  const drivers     = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/drivers/${ bet.value.season }`);
-  const driversData = <Array<Driver>>drivers.data.drivers;
+  const driversData = await f1Client.drivers.getDriversBySeason(bet.value.season);
 
-  driversData.forEach(driver => {
-    driverCodes.push(driver.code);
+  driversData.drivers.forEach(driver => {
+    driverCodes.push(driver.code ?? "ERR");
   });
 }
 
@@ -170,13 +153,4 @@ onBeforeMount(async () => {
 
 <style scoped>
 
-
-/*@media only screen and (min-width: 500px) {*/
-/*  select {*/
-/*    -webkit-appearance:  none;*/
-/*    -moz-appearance:     none;*/
-/*    -webkit-user-select: none;*/
-/*    -moz-user-select:    none;*/
-/*  }*/
-/*}*/
 </style>

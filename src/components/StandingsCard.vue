@@ -3,8 +3,8 @@
     <h1 class="font-bold text-3xl">STANDINGS</h1>
     <select v-model="season"
         class="bg-red border-white border-2 p-1 text-xl text-center uppercase rounded-md w-24"
-        @change="getStandingsForSeason()">
-      <option v-for="season in seasons">{{ season }}</option>
+        @change="getStandingsForSeason(season)">
+      <option v-for="season in possibleSeasons">{{ season }}</option>
     </select>
     <div v-for="user in standings" class="grid grid-cols-2 gap-x-4 text-xl">
       <h1 class="font-bold text-right capitalize"> {{ user.username }} </h1>
@@ -14,41 +14,45 @@
 </template>
 
 <script setup lang="ts">
-import Card                   from "../components/Card.vue";
-import { onBeforeMount, ref } from "vue";
-import { NextRace }           from "../typings/typings";
-import axios                  from "axios";
+import Card                          from "../components/Card.vue";
+import { onBeforeMount, ref }        from "vue";
+import { F1Client }                  from "../client/f1";
+import { BettingClient, UserResult } from "../client/betting";
 
-const standings = ref();
-const season    = ref();
-const seasons   = ref();
+const standings       = ref<Array<UserResult>>();
+const season          = ref<number>();
+const possibleSeasons = ref<Array<number>>();
+
+const f1Client = new F1Client({
+  BASE: `${ import.meta.env.VITE_F1_API_URL }`,
+});
+
+const bettingClient = new BettingClient({
+  BASE: `${ import.meta.env.VITE_BETTING_API_URL }`,
+});
 
 async function getSeasons() {
-  const seasonsRes = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/seasons`);
-
-  seasons.value = <Array<Number>>seasonsRes.data.seasons;
+  const seasonsRes      = await bettingClient.seasons.getSeasons();
+  possibleSeasons.value = seasonsRes.seasons;
 }
 
 async function getStandings() {
-  const nextRace = await axios.get(`${ import.meta.env.VITE_F1_API_URL }/event/next`);
-  const raceData = <NextRace>nextRace.data;
+  const nextRace = await f1Client.events.getNextRace();
 
-  season.value = raceData.season;
-  const round  = raceData.round;
+  season.value = nextRace.season;
+  const round  = nextRace.round;
 
   if (round <= 1) {
     season.value--;
   }
 
-  const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/results/standings/${ season.value }`);
-
-  standings.value = res.data.results;
+  await getStandingsForSeason(season.value);
 }
 
-async function getStandingsForSeason() {
-  const res = await axios.get(`${ import.meta.env.VITE_BETTING_API_URL }/results/standings/${ season.value }`);
+async function getStandingsForSeason(season: number) {
+  const standingsData = await bettingClient.results.getStandings(season);
 
-  standings.value = res.data.results;
+  standings.value = standingsData.results;
 }
 
 onBeforeMount(async () => {

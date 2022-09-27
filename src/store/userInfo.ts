@@ -26,5 +26,5 @@ interface userState {
 interface userData {
 	username: string,
 	uuid: string,
-	points: number
+	points?: number
 }

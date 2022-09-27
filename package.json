@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-client": "openapi --input https://raw.githubusercontent.com/niek-o/F1Betting/main/OpenAPI.json --output src/client/betting --client axios --name BettingClient && openapi --input https://raw.githubusercontent.com/niek-o/F1API/main/OpenAPI.json --output ./src/client/f1 --client axios --name F1Client"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -20,6 +21,7 @@
     "@vitejs/plugin-basic-ssl": "^0.1.2",
     "@vitejs/plugin-vue": "^3.1.0",
     "autoprefixer": "^10.4.11",
+    "openapi-typescript-codegen": "^0.23.0",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
     "typescript": "^4.6.4",
