@@ -7,19 +7,19 @@
       <select
           v-model="bet.p1"
           class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md lg:appearance-none small:appearance-none">
-        <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
+        <option v-for="driverCode in driverCodes" class="lg:hidden small:hidden">{{ driverCode }}</option>
       </select>
       <h1 class="font-bold text-right self-center">P2</h1>
       <select
           v-model="bet.p2"
           class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md lg:appearance-none small:appearance-none">
-        <option v-for="driverCode in driverCodes">{{ driverCode }}</option>
+        <option v-for="driverCode in driverCodes" class="lg:hidden small:hidden">{{ driverCode }}</option>
       </select>
       <h1 class="font-bold text-right self-center">P3</h1>
       <select
           v-model="bet.p3"
           class="bg-red border-white border-2 p-1 text-xl uppercase rounded-md lg:appearance-none small:appearance-none">
-        <option v-for="driverCode in driverCodes" class="lg:hidden, small:hidden">{{ driverCode }}</option>
+        <option v-for="driverCode in driverCodes" class="lg:hidden small:hidden">{{ driverCode }}</option>
       </select>
     </div>
 
