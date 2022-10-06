@@ -17,6 +17,8 @@ function handleCredentialResponse(response: any) {
   const responsePayload = decodeJwt(response.credential);
   if (!responsePayload.sub) return;
 
+  console.log(response.credential)
+
   userStore.id    = decodeJwt(response.credential);
   userStore.token = response.credential;
   userStore.guest = false;

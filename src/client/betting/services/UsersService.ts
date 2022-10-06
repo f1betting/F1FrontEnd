@@ -19,7 +19,7 @@ export class UsersService {
     public getAllUsers(): CancelablePromise<Users> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/users/',
+            url: '/users',
             errors: {
                 404: `Not Found`,
             },
@@ -37,7 +37,7 @@ requestBody: User,
 ): CancelablePromise<User> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/users/',
+            url: '/users',
             body: requestBody,
             mediaType: 'application/json',
             errors: {

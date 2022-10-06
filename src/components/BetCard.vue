@@ -87,7 +87,7 @@ async function getNextBet() {
   raceName.value = event.raceName;
 
   try {
-    bet.value = await bettingClient.bet.getBet(round);
+    bet.value = await bettingClient.bet.getBet(season, round);
 
     betExists.value = true;
   }
@@ -102,13 +102,8 @@ async function getNextBet() {
 }
 
 async function updateBet() {
-  const nextRace = await f1Client.events.getNextRace();
-
-  const season = nextRace.season;
-  const round  = nextRace.round;
-
   try {
-    await bettingClient.bet.editBet(round, season, bet.value.p1, bet.value.p2, bet.value.p3);
+    await bettingClient.bet.editBet(bet.value.p1, bet.value.p2, bet.value.p3);
   }
   catch {
     console.error("Driver code incorrect");
@@ -128,11 +123,7 @@ async function createBet() {
 }
 
 async function deleteBet() {
-  const nextRace = await f1Client.events.getNextRace();
-
-  const round = nextRace.round;
-
-  await bettingClient.bet.deleteBet(round);
+  await bettingClient.bet.deleteBet();
 
   await getNextBet();
 }

@@ -70,7 +70,7 @@ async function getBet() {
   raceName.value = event.raceName;
 
   try {
-    bet.value = await bettingClient.bet.getBet(round);
+    bet.value = await bettingClient.bet.getBet(season, round);
   }
   catch {
     console.error("Bet not found");
