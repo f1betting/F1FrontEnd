@@ -2,8 +2,8 @@
   <Card class="place-items-center">
     <h1 class="font-bold text-3xl">STANDINGS</h1>
     <select v-model="season"
-        class="bg-red border-white border-2 p-1 text-xl text-center uppercase rounded-md w-24"
-        @change="getStandingsForSeason(season)">
+            class="bg-red border-white border-2 p-1 text-xl text-center uppercase rounded-md w-24"
+            @change="getStandingsForSeason(season)">
       <option v-for="season in possibleSeasons">{{ season }}</option>
     </select>
     <div v-for="user in standings" class="grid grid-cols-2 gap-x-4 text-xl">
@@ -14,34 +14,39 @@
 </template>
 
 <script setup lang="ts">
-import Card                          from "../components/Card.vue";
-import { onBeforeMount, ref }        from "vue";
-import { F1Client }                  from "../client/f1";
+import Card from "../components/Card.vue";
+import { onBeforeMount, ref } from "vue";
+import { F1Client } from "../client/f1";
 import { BettingClient, UserResult } from "../client/betting";
 
-const standings       = ref<Array<UserResult>>();
-const season          = ref<number>();
+const standings = ref<Array<UserResult>>();
+const season = ref<number>();
 const possibleSeasons = ref<Array<number>>();
 
+// Initialize API clients
 const f1Client = new F1Client({
-  BASE: `${ import.meta.env.VITE_F1_API_URL }`,
+  BASE: `${ import.meta.env.VITE_F1_API_URL }`
 });
 
 const bettingClient = new BettingClient({
-  BASE: `${ import.meta.env.VITE_BETTING_API_URL }`,
+  BASE: `${ import.meta.env.VITE_BETTING_API_URL }`
 });
 
+// Fetch unique seasons that have bets on them
 async function getSeasons() {
-  const seasonsRes      = await bettingClient.seasons.getSeasons();
+  const seasonsRes = await bettingClient.seasons.getSeasons();
   possibleSeasons.value = seasonsRes.seasons;
 }
 
+// Fetch standings
 async function getStandings() {
+  // Fetch next race
   const nextRace = await f1Client.events.getNextRace();
 
   season.value = nextRace.season;
-  const round  = nextRace.round;
+  const round = nextRace.round;
 
+  // Select previous season if round is 1
   if (round <= 1) {
     season.value--;
   }
@@ -49,6 +54,7 @@ async function getStandings() {
   await getStandingsForSeason(season.value);
 }
 
+// Fetch standings for selected season
 async function getStandingsForSeason(season: number) {
   const standingsData = await bettingClient.results.getStandings(season);
 

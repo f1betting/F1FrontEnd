@@ -1,16 +1,161 @@
-# Vue 3 + TypeScript + Vite
+<a name="readme-top"></a>
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<div>
+<h3 align="center">F1Betting</h3>
 
-## Recommended IDE Setup
+  <p align="center">
+    An API to do bets with your friends about F1 race results!
+    <br />
+    <a href="https://github.com/f1betting/F1Betting/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/f1betting/F1Betting/issues">Request Feature</a>
+  </p>
+</div>
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
-## Type Support For `.vue` Imports in TS
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+<!-- TABLE OF CONTENTS -->
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+## 📋 Table of contents
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+- [ℹ️ About The Project](#-about-the-project)
+    - [🚧 Built With](#built-with)
+- [🔨 Getting Started](#-getting-started)
+    - [⚠ Prerequisites](#-prerequisites)
+    - [🤖 .env file](#-env-file)
+    - [🏡 Running development server](#-running-development-server)
+    - [🏗️ Building the app](#-building-the-app)
+- [🚀 Usage ](#-usage)
+- [📜 License](#-license)
+
+<!-- ABOUT THE PROJECT -->
+
+## ℹ️ About The Project
+
+This is the front-end used to interact with [F1Betting](https://github.com/f1betting/F1Betting).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 🚧 Built With
+
+* [![Yarn]][Yarn-url]
+* [![Vite]][Vite-url]
+* [![Vue.js]][Vue.js-url]
+* [![Typescript]][Typescript-url]
+* [![Tailwind]][Tailwind-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- GETTING STARTED -->
+
+## 🔨 Getting Started
+
+Below are the instructions for running the app for development and general usage.
+
+### ⚠ Prerequisites
+
+* [F1API](https://github.com/f1betting/F1API) must be running
+* [F1Betting](https://github.com/f1betting/F1Betting) must be running
+* A Google Cloud project with OAuth2 credentials configured
+
+### 🤖 .env file
+
+This project requires a .env file. Below is a template of the values it should contain.
+
+````dotenv
+# Google client ID
+VITE_CLIENT_ID=
+
+# URL to F1Betting (https://github.com/f1betting/F1Betting)
+VITE_BETTING_API_URL=
+
+# URL to F1API (https://github.com/f1betting/F1API)
+VITE_F1_API_URL=
+````
+
+### 🏡 Running development server
+
+1. Install dependencies with yarn using:
+
+   ````shell
+   $ yarn install
+   ````
+
+2. Run development server using:
+   ````shell
+   $ yarn dev --host
+   ````
+
+The server will be running on port ``5173``
+
+### 🏗️ Building the app
+
+1. Install dependencies with yarn using:
+
+   ````shell
+   $ yarn install
+   ````
+
+2. Build app using:
+   ````shell
+   $ yarn build
+   ````
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- USAGE EXAMPLES -->
+
+## 🚀 Usage
+
+<img src="docs/screenshot.png">
+
+If running development server, it will be running on port ``5173``
+
+Upon loading the app you will be prompted to log-in using Google.
+
+Once you've signed in, the app will take you to the main screen. Here you can place bets, edit bets and delete bets. You
+can also see the results for the previous race and view the standings per season.
+
+To place a bet, click on one of the rectangles and start typing the driver abbreviation. They will be auto-completed as
+you continue to type.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- LICENSE -->
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE.md` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[Yarn]: https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white
+
+[Yarn-url]: https://yarnpkg.com/
+
+[Vite]: https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white
+
+[Vite-url]: https://vitejs.dev/
+
+[Vue.js]: https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D
+
+[Vue.js-url]: https://vuejs.org/
+
+[Typescript]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
+
+[Typescript-url]: https://www.typescriptlang.org/
+
+[Tailwind]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
+
+[Tailwind-url]: https://tailwindcss.com/

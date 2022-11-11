@@ -3,21 +3,25 @@
 </template>
 
 <script setup lang="ts">
-import { decodeJwt }    from "jose";
+import { decodeJwt } from "jose";
 import { useUserStore } from "../store/userInfo";
-import { useRouter }    from "vue-router";
-import { onMounted }    from "vue";
+import { useRouter } from "vue-router";
+import { onMounted } from "vue";
 
 const userStore = useUserStore();
-const router    = useRouter();
+const router = useRouter();
 
 const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 
 function handleCredentialResponse(response: any) {
+  // Decode JWT
   const responsePayload = decodeJwt(response.credential);
-  if (!responsePayload.sub) return;
+  if (!responsePayload.sub) {
+    return;
+  }
 
-  userStore.id    = decodeJwt(response.credential);
+  // Store userdata in userStore
+  userStore.id = responsePayload;
   userStore.token = response.credential;
   userStore.guest = false;
 
@@ -25,10 +29,12 @@ function handleCredentialResponse(response: any) {
 }
 
 onMounted(() => {
+  // Initialize Google application
   google.accounts.id.initialize({
     client_id: CLIENT_ID,
-    callback:  handleCredentialResponse
+    callback: handleCredentialResponse
   });
+  // Render "continue with Google" button
   google.accounts.id.renderButton(
       document.getElementById("buttonDiv")!,
       { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "continue_with" }  // customization attributes
