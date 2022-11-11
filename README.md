@@ -1,14 +1,14 @@
 <a name="readme-top"></a>
 
 <div>
-<h3 align="center">F1Betting</h3>
+<h3 align="center">F1FrontEnd</h3>
 
   <p align="center">
-    An API to do bets with your friends about F1 race results!
+    A web application to do bets with your friends about F1 race results!
     <br />
-    <a href="https://github.com/f1betting/F1Betting/issues">Report Bug</a>
+    <a href="https://github.com/f1betting/F1FrontEnd/issues">Report Bug</a>
     ·
-    <a href="https://github.com/f1betting/F1Betting/issues">Request Feature</a>
+    <a href="https://github.com/f1betting/F1FrontEnd/issues">Request Feature</a>
   </p>
 </div>
 
@@ -31,6 +31,8 @@
 <!-- ABOUT THE PROJECT -->
 
 ## ℹ️ About The Project
+
+A web application to do bets with your friends about F1 race results!
 
 This is the front-end used to interact with [F1Betting](https://github.com/f1betting/F1Betting).
 
