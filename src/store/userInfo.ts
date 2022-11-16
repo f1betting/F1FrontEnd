@@ -5,7 +5,9 @@ export const useUserStore = defineStore("UserStore", {
     state: (): userState => {
         return {
             token: "",
-            id: {},
+            id: {
+                picture: ""
+            },
             userdata: {
                 username: "",
                 uuid: "",
@@ -18,7 +20,7 @@ export const useUserStore = defineStore("UserStore", {
 
 interface userState {
     token: string,
-    id: JWTPayload,
+    id: FinalJWTPayload,
     userdata: userData,
     guest: boolean
 }
@@ -27,4 +29,8 @@ interface userData {
     username: string,
     uuid: string,
     points?: number
+}
+
+interface FinalJWTPayload extends JWTPayload {
+    picture?: string
 }

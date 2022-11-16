@@ -55,7 +55,9 @@ async function getStandings() {
 }
 
 // Fetch standings for selected season
-async function getStandingsForSeason(season: number) {
+async function getStandingsForSeason(season?: number) {
+  if(!season) return;
+
   const standingsData = await bettingClient.results.getStandings(season);
 
   standings.value = standingsData.results;

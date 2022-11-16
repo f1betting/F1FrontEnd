@@ -35,7 +35,7 @@ const emptyBet = {
   p2: "",
   p3: "",
   uuid: "",
-  points: -1,
+  points: 0,
   round: -1,
   season: -1
 };
