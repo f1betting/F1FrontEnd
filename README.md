@@ -23,6 +23,7 @@
 - [🔨 Getting Started](#-getting-started)
     - [⚠ Prerequisites](#-prerequisites)
     - [🤖 .env file](#-env-file)
+    - [🚢 Running using Docker](#-running-using-docker)
     - [🏡 Running development server](#-running-development-server)
     - [🏗️ Building the app](#-building-the-app)
 - [🚀 Usage ](#-usage)
@@ -64,7 +65,7 @@ Below are the instructions for running the app for development and general usage
 
 ### 🤖 .env file
 
-This project requires a .env file. Below is a template of the values it should contain.
+This project requires a ```.env``` file. Below is a template of the values it should contain.
 
 ````dotenv
 # Google client ID
@@ -75,9 +76,52 @@ VITE_BETTING_API_URL=
 
 # URL to F1API (https://github.com/f1betting/F1API)
 VITE_F1_API_URL=
+
+# SERVER SETTINGS
+HOST=0.0.0.0
+PORT=5173
+
+# DEV | PROD
+MODE=DEV
 ````
 
+### 🚢 Running using Docker
+
+Running the app using Docker requires a ```.env.prod``` file. The server settings should be set to
+
+````dotenv
+# SERVER SETTINGS
+HOST=0.0.0.0
+PORT=5173
+
+# DEV | PROD
+MODE=PROD
+````
+
+1. Build docker image using:
+
+    ````shell
+    $ docker build . -t f1frontend
+    ````
+
+2. Run container using:
+
+    ````shell
+    $ docker run -p 80:80 f1frontend
+    ````
+
 ### 🏡 Running development server
+
+Running the app using the development server requires a ```.env``` file. The server settings should be set to
+
+````dotenv
+# SERVER SETTINGS
+HOST=0.0.0.0
+PORT=5173
+
+# DEV | PROD
+MODE=DEV
+````
 
 1. Install dependencies with yarn using:
 
@@ -90,7 +134,7 @@ VITE_F1_API_URL=
    $ yarn dev --host
    ````
 
-The server will be running on port ``5173``
+The server will be running on port ```5173```
 
 ### 🏗️ Building the app
 

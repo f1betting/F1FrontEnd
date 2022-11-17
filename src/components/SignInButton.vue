@@ -29,17 +29,22 @@ function handleCredentialResponse(response: any) {
 }
 
 onMounted(() => {
-  // Initialize Google application
-  google.accounts.id.initialize({
-    client_id: CLIENT_ID,
-    callback: handleCredentialResponse
-  });
-  // Render "continue with Google" button
-  google.accounts.id.renderButton(
-      document.getElementById("buttonDiv")!,
-      { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "continue_with" }  // customization attributes
-  );
-  google.accounts.id.prompt(); // also display the One Tap dialog
+  let interval = setInterval(() => {
+    if(google) {
+      clearInterval(interval)
+      // Initialize Google application
+      google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: handleCredentialResponse
+      });
+      // Render "continue with Google" button
+      google.accounts.id.renderButton(
+          document.getElementById("buttonDiv")!,
+          { theme: "outline", size: "large", type: "standard", shape: "rectangular", text: "continue_with" }  // customization attributes
+      );
+      google.accounts.id.prompt(); // also display the One Tap dialog
+    }
+  }, 200)
 });
 </script>
 
