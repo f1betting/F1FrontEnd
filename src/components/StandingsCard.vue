@@ -7,7 +7,7 @@
       <option v-for="season in possibleSeasons">{{ season }}</option>
     </select>
     <div v-for="user in standings" class="grid grid-cols-2 gap-x-4 text-xl">
-      <h1 class="font-bold text-right capitalize"> {{ user.username }} </h1>
+      <h1 class="font-bold text-right capitalize"> {{ getUserName(user.username) }} </h1>
       <h1 class="text-left"> {{ user.points }} </h1>
     </div>
   </Card>
@@ -22,6 +22,15 @@ import { BettingClient, UserResult } from "../client/betting";
 const standings = ref<Array<UserResult>>();
 const season = ref<number>();
 const possibleSeasons = ref<Array<number>>();
+
+function getUserName(username: string) {
+  const splitName = username.split(" ")
+
+  const firstName = splitName[0]
+  const lastName = splitName[splitName.length-1]
+
+  return `${firstName} ${lastName[0]}.`
+}
 
 // Initialize API clients
 const f1Client = new F1Client({
