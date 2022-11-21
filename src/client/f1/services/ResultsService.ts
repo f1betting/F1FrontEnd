@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type { ConstructorStandings } from '../models/ConstructorStandings';
 import type { DriverStandings } from '../models/DriverStandings';
+import type { QualifyingResults } from '../models/QualifyingResults';
 import type { RaceResults } from '../models/RaceResults';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -33,6 +34,7 @@ race: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -41,13 +43,13 @@ race: number,
      * Get Qualifying Results
      * @param season 
      * @param race 
-     * @returns any Successful Response
+     * @returns QualifyingResults Successful Response
      * @throws ApiError
      */
     public getQualifyingResults(
 season: number,
 race: number,
-): CancelablePromise<Array<any>> {
+): CancelablePromise<QualifyingResults> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/results/qualifying/{season}/{race}',
@@ -58,6 +60,7 @@ race: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -80,6 +83,7 @@ season: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -102,6 +106,7 @@ season: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }

@@ -6,6 +6,7 @@ import type { Circuit } from './Circuit';
 import type { Session } from './Session';
 
 export type Event = {
+    timestamp?: number;
     season: number;
     round: number;
     url: string;

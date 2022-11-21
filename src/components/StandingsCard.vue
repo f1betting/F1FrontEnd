@@ -47,18 +47,12 @@ async function getSeasons() {
   possibleSeasons.value = seasonsRes.seasons;
 }
 
-// Fetch standings
+// // Fetch standings
 async function getStandings() {
-  // Fetch next race
-  const nextRace = await f1Client.events.getNextRace();
+  // Fetch previous race
+  const previousRace = await f1Client.events.getPreviousRace();
 
-  season.value = nextRace.season;
-  const round = nextRace.round;
-
-  // Select previous season if round is 1
-  if (round <= 1) {
-    season.value--;
-  }
+  season.value = previousRace.season;
 
   await getStandingsForSeason(season.value);
 }

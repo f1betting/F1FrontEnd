@@ -55,6 +55,7 @@ season: string,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -77,6 +78,7 @@ season: string,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -99,6 +101,7 @@ season: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -121,6 +124,7 @@ season: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -143,6 +147,7 @@ season: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }

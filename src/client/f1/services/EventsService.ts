@@ -22,6 +22,23 @@ export class EventsService {
             url: '/event/next',
             errors: {
                 404: `Not Found`,
+                503: `Service Unavailable`,
+            },
+        });
+    }
+
+    /**
+     * Get Previous Race
+     * @returns NextEvent Successful Response
+     * @throws ApiError
+     */
+    public getPreviousRace(): CancelablePromise<NextEvent> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/event/previous',
+            errors: {
+                404: `Not Found`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -47,6 +64,7 @@ round: number,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }

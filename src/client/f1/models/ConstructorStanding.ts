@@ -5,6 +5,7 @@
 import type { Constructor } from './Constructor';
 
 export type ConstructorStanding = {
+    timestamp?: number;
     position: number;
     positionText: string;
     points: number;

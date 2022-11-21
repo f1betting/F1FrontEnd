@@ -8,6 +8,7 @@ import type { FastestLap } from './FastestLap';
 import type { Time } from './Time';
 
 export type RaceResult = {
+    timestamp?: number;
     number: number;
     position: number;
     positionText: string;

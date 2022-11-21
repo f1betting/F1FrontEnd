@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 export type Driver = {
+    timestamp?: number;
     driverId: string;
     url: string;
     givenName: string;

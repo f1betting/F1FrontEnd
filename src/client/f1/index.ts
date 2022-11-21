@@ -27,6 +27,8 @@ export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { Location } from './models/Location';
 export type { Message } from './models/Message';
 export type { NextEvent } from './models/NextEvent';
+export type { QualifyingResult } from './models/QualifyingResult';
+export type { QualifyingResults } from './models/QualifyingResults';
 export type { RaceResult } from './models/RaceResult';
 export type { RaceResults } from './models/RaceResults';
 export type { Session } from './models/Session';
@@ -35,6 +37,7 @@ export type { ValidationError } from './models/ValidationError';
 
 export { CircuitsService } from './services/CircuitsService';
 export { ConstructorsService } from './services/ConstructorsService';
+export { DefaultService } from './services/DefaultService';
 export { DriversService } from './services/DriversService';
 export { EventsService } from './services/EventsService';
 export { ResultsService } from './services/ResultsService';

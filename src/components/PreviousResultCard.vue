@@ -62,12 +62,11 @@ const bettingClient = new BettingClient({
 });
 
 async function getBet() {
-  // Fetch next race
-  const nextRace = await f1Client.events.getNextRace();
+  // Fetch previous race
+  const previousRace = await f1Client.events.getPreviousRace();
 
-  const season = nextRace.season;
-  // Select previous race
-  const round = nextRace.round - 1;
+  const season = previousRace.season;
+  const round = previousRace.round;
 
   // Fetch event details
   const event = await f1Client.events.getEventDetails(season, round);

@@ -5,12 +5,13 @@
 import type { Constructor } from './Constructor';
 import type { Driver } from './Driver';
 
-export type DriverStanding = {
+export type QualifyingResult = {
     timestamp?: number;
+    number: number;
     position: number;
-    positionText: string;
-    points: number;
-    wins: number;
     Driver: Driver;
-    Constructors: Array<Constructor>;
+    Constructor: Constructor;
+    Q1?: string;
+    Q2?: string;
+    Q3?: string;
 };

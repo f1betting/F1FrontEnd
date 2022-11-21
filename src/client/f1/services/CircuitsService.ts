@@ -22,6 +22,7 @@ export class CircuitsService {
             url: '/circuits',
             errors: {
                 404: `Not Found`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -44,6 +45,7 @@ season: string,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
@@ -66,6 +68,7 @@ circuitId: string,
             errors: {
                 404: `Not Found`,
                 422: `Validation Error`,
+                503: `Service Unavailable`,
             },
         });
     }
